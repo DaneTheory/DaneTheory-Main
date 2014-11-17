@@ -1,0 +1,869 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Branden Dane</title>
+<meta name="author" content="Branden Dane">
+<meta name="description" content="Branden Dane. Developer. Designer. Professional Thinker. Caught all 150 pokemon.">
+<meta name="keywords" content="branden dane portfolio website drupal wordpress developer designer">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+<!-- CSS STYLESHEETS -->
+        <link rel="stylesheet" type="text/css" href="../css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+
+<!---FONTS-->
+	    <!-- <link rel="stylesheet" href="../fonts/fonts.css"> -->
+
+<!-- VENDOR FIXES -->
+        <script type="text/javascript" src="../js/vendor/prefixfree.min.js"></script>
+        <script type="text/javascript" src="../js/vendor/modernizr-2.6.2.min.js"></script>
+        <!--[if lt IE 9]>
+	    <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
+
+<!-- HTML5 BOLIERPLATE SCRIPTS -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="../js/plugins.js"></script>
+
+
+<!-- JAVASCRIPT BAKED SCRIPTS -->
+        <script type="text/javascript" src="../js/old/three.min.js"></script>
+		<script type="text/javascript" src="../js/stats.min.js"></script>
+	    <script type="text/javascript" src="../js/vendor/Detector.js"></script>
+
+	    <script type="text/javascript" src="../js/vendor/THREEx.requestAnimationFrame.js"></script>
+        <script type="text/javascript" src="../js/vendor/THREEx.screenshot.js"></script>
+        <script type="text/javascript" src="../js/vendor/OrbitAndPanControls.js"></script>
+
+
+	    <script type="text/javascript" src="../js/vendor/THREEx.KeyboardState.js"></script>
+
+	    <script type="text/javascript" src="../js/vendor/THREEx.DeviceOrientationState.js"></script>
+	    <script type="text/javascript" src="../js/vendor/threex.domevents.js"></script>
+	    <script type="text/javascript" src="../js/vendor/THREEx.FullScreen.js"></script>
+
+		<script type="text/javascript" src="../js/proctree.js"></script>
+	    <script type="text/javascript" src="../js/ThreeUtils2.js"></script>
+		<script type="text/javascript" src="../js/crayon.min.js"></script>
+		<script type="text/javascript" src="../js/ParticleGeometry.js"></script>
+		<script type="text/javascript" src="../js/GeometryUtils.js"></script>
+
+
+<!-- HEADER CUSTOM SCRIPTS -->
+        <script type="text/javascript">
+        // Paul Irish RequestAnimationFrame Vendor Fix Snippet //
+	        window.requestAnimFrame = (function(){
+              return  window.requestAnimationFrame       ||
+              window.webkitRequestAnimationFrame ||
+              window.mozRequestAnimationFrame    ||
+              window.oRequestAnimationFrame      ||
+              window.msRequestAnimationFrame     ||
+              function(/* function */ callback, /* DOMElement */ element){
+                window.setTimeout(callback, 1000 / 60);
+              };
+        })();
+        </script>
+
+</head>
+
+<!--------------------------------------- BODY START ---------------------------------------->
+    <body>
+
+    <!-- BrowserHappy
+    -------------------->
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+
+        <!-- Pre-Loader
+        -------------------->
+        <div id="preloader">
+            <div id="status">&nbsp;</div>
+        </div>
+
+
+
+            <!-- Vertex Shader
+            -------------------->
+	        <script id="vertexShader" type="x-shader/x-vertex">
+            precision mediump float;
+            precision mediump int;
+            uniform mat4 modelViewMatrix;
+            uniform mat4 projectionMatrix;
+            attribute vec3 position;
+            attribute vec3 offset;
+            attribute vec3 rotation;
+            attribute vec2 uv;
+            attribute vec3 color;
+            varying vec3 vColor;
+            varying vec2 vUv;
+
+                void main()	{
+                    vColor = color;
+                    float
+				    cosrx = cos(rotation.x),
+				    sinrx = sin(rotation.x),
+				    cosry = cos(rotation.y),
+				    sinry = sin(rotation.y),
+				    cosrz = cos(rotation.z),
+				    sinrz = sin(rotation.z);
+				    mat3 rotX = mat3(
+					    0.0, 0.15, 0.15,
+					    0.0, cosrx, sinrx,
+					    0.0, -sinrx, cosrx
+                        );
+                    mat3 rotY =  mat3(
+					    cosry, 1.0, -sinry,
+					    2.0, 1.0, 0.0,
+					    sinry, 0.0, cosry
+				        );
+				    mat3 rotZ =  mat3(
+					    cosrz, sinrz, 0.0,
+					    -sinrz, cosrz, 0.0,
+					    0.0, 0.0, 1.0
+				        );
+                    vec3 newPosition = offset + position * rotZ * rotY * rotX;
+		            vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0
+                    );
+                }
+            </script>
+
+
+
+            <!-- Fragment Shader
+            ---------------------->
+		    <script id="fragmentShader" type="x-shader/x-fragment">
+            precision mediump float;
+			precision mediump int;
+            uniform float time;
+			uniform float depth;
+			uniform sampler2D texture;
+            varying vec3 vColor;
+			varying vec2 vUv;
+            vec4 pack_depth( const in float depth ) {
+                const vec4 bit_shift = vec4( 256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0
+                );
+				const vec4 bit_mask  = vec4( 0.0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0
+				);
+				vec4 res = fract( depth * bit_shift
+				);
+				res -= res.xxyz / bit_mask;
+				return res;
+                }
+
+                    void main()	{
+                        //gl_FragColor = vec4( 1., 1., 1., 1. );
+				        vec4 tex = texture2D(texture, vUv
+                        );
+
+                        // alpha test
+				        if (tex.a < 0.5) discard;
+                            if (depth > 0.5) {
+                                    gl_FragData[ 0 ] = pack_depth(gl_FragCoord.z
+                                    );
+                                } else {
+                                    vec4 color =  vec4(tex.xyz * vColor, 1.0
+                                    );
+                                    gl_FragData[ 0 ] =  color;
+                        }
+                    }
+            </script>
+
+
+
+    <!-- Blur Effect DIV
+    ---------------------->
+    <div id="blurMe"></div>
+
+
+
+              <!-- Fragment Depth Shader
+              --------------------------->
+		      <script type="x-shader/x-fragment" id="fragmentShaderDepth">
+              uniform sampler2D texture;
+			  varying vec2 vUV;
+              vec4 pack_depth( const in float depth ) {
+                  const vec4 bit_shift = vec4( 256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0
+                  );
+				  const vec4 bit_mask  = vec4( 0.0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0
+				  );
+				  vec4 res = fract( depth * bit_shift
+				  );
+				  res -= res.xxyz * bit_mask;
+				  return res;
+                  }
+
+                      void main() {
+                          vec4 pixel = texture2D( texture, vUV
+                          );
+
+                            if ( pixel.a < 0.5 ) discard;
+
+                          gl_FragData[ 0 ] = pack_depth( gl_FragCoord.z
+                          );
+                   }
+		       </script>
+
+
+
+               <!-- Vertex Depth Shader
+               -------------------------->
+               <script type="x-shader/x-vertex" id="vertexShaderDepth">
+               varying vec2 vUV;
+
+                   void main() {
+                       vUV = uv;
+                       vec4 mvPosition = modelViewMatrix * vec4( position, 1.0
+                       );
+                       gl_Position = projectionMatrix * mvPosition;
+                    }
+               </script>
+
+
+
+
+
+
+                    <!-- SCENE MAIN JAVASCRIPT BEGIN
+                    ------------------------------------------->
+                    <script type="text/javascript">
+
+                        var LEAVES = 10000;
+
+                        //Defines Leaf "petal" Relationship To Corresponding Environment
+
+			            var ON_TREE = -1, ON_AIR = 10;
+
+			            //Ground Plane Defining Size Variables
+			            var GROUND_WIDTH = window.innerWidth * 15;
+			            var GROUND_ELEVATION = window.innerHeight;
+
+                        //ThreeJS Necessary Variables
+                        var camera, scene, renderer;
+
+			            //Fallback Tree Variable In Case Procedurally Generated Tree Breaks
+			            var tree1;
+
+                        //Defines Baseline For Incremental Steps Used In Render
+                        var step = 1;
+
+			            //Defines Array Used In Animation Function
+			            sins = [];
+
+			            //Defines Array Used In Animation Function
+			            last = Date.now();
+
+			            //Defines Variable Used In Creating "Wind" Physics In Scene
+			            windForce = new THREE.Vector3(1000, -1000 ,500);
+
+                        //Defines Variable Used In Canvas Wide Blur Effect
+			            blurMe = document.getElementById('blurMe');
+
+			                    //Function For Canvas Blur On MouseOver
+				                blurMe.addEventListener('mouseover', function() {
+				                    renderer.domElement.classList.add('blur');
+			                    });
+
+                                //Function To Remove Canvas Blur On MouseOut
+			                    blurMe.addEventListener('mouseout', function blur() {
+				                    renderer.domElement.classList.remove('blur');
+			                    });
+
+                        // Defines Function Used For Scene Initilization
+			            init();
+
+			            //Defines Function Used In Configuring "Falling" Leaves
+			            leavesFall();
+
+			            //Defines Default ThreeJS Functions Necessary For Scene To Work
+			            //The Animate Function References "Time" To Update The Scene Each Frame Thus Enabling "Animations"
+			            //The Render Function Is Used To Render Any And All Objects In Scene. Mainly: Camera And Scene
+			            animate();
+			            update();
+			            render();
+
+
+
+
+
+
+			                //Function Which Defines Math Used To Create Parametric Plane Geometry
+			                function hill(u, v) {
+                                u = 0.5 - u;
+                                v = v - 0.5;
+                                var r2 = u * u * 0.5 + v * v * 0.5;
+
+				                    return new THREE.Vector3(u * 7000, - r2 * 9000 , v * 7000);
+                            }
+
+                            //Function That Checks Animation Function Status Of Ground Plane
+			                function checkFloor(x, y) {
+				                var u = x / 1000;
+				                var v = y / 1000;
+				                var r2 = u * u + v * v;
+
+				                    return - r2 * 1000;
+			                }
+
+                            //Function For Setting Up Math Behind "Falling" Leaves
+                            //Function Begins With setTimeout Which Delays Immediate
+                            //Leaf Animation Caused Via Windforce Function
+			                function leavesFall() {
+				                setTimeout(leavesFall, 0.1); //Increase Second Parameter To Delay Leaves "Falling" Animation
+
+                                fallings[Math.random() / 20 * Math.PI * LEAVES | 0] = ON_AIR; //Leaf Math For Behavior While In "Air"
+			                }
+
+                            //Function For Math Needed For Procedural Tree Generation Via Proctree.js
+			                function proctreeToBufferGeometry(vertices, faces, UVs, NORMALS) {
+                                var geometry = new THREE.BufferGeometry();
+                                var triangles = faces.length;
+                                var positions = new Float32Array( triangles * 3 * 3 ); //Float32Array For Optimized Memory Storage
+				                var normals = new Float32Array( triangles * 3 * 3 );   //Float32Array For Optimized Memory Storage
+				                var uvs = new Float32Array( triangles * 3 * 2 );       //Float32Array For Optimized Memory Storage
+
+				                    geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+				                    geometry.addAttribute( 'normal', new THREE.BufferAttribute( normals, 3 ) );
+				                    geometry.addAttribute( 'uv', new THREE.BufferAttribute( uvs, 4 ) );
+
+
+                                      var ii = 0, jj = 0, kk = 0;
+
+                                        for (i=0, il=faces.length; i < il; i++) {
+					                        var f = faces[i];
+
+						                    for (j = 0; j < 3; j++) {
+						                        var vertexIndex = f[j];
+						                        var vertex = vertices[vertexIndex];
+						                        var uv = UVs[vertexIndex];
+						                        var normal = NORMALS[vertexIndex];
+
+                                                    positions[ii++] = vertex[0];
+						                            positions[ii++] = vertex[1];
+						                            positions[ii++] = vertex[2];
+                                                    normals[kk++] = normal[0];
+						                            normals[kk++] = normal[1];
+						                            normals[kk++] = normal[2];
+                                                    uvs[ jj ++ ] = uv[0];
+						                            uvs[ jj ++ ] = uv[1];
+                                             }
+				                        }
+                                            return geometry;
+                            }
+
+                            //Function To Create Procudurally Generated Tree For Render Into Scene
+                            function addTree() {
+                                if (tree1) scene.remove(tree1); //Fallback For Tree If Proc. Tree Breaks
+
+                                    //JSON Parameters Used To Create Proc. Tree
+                                    treeParams = {
+				                        "seed":109,
+                                        "segments":10,
+                                        "levels":4,
+                                        "vMultiplier":8.16,
+                                        "twigScale":0.85,
+                                        "initalBranchLength":0.95,
+                                        "lengthFalloffFactor":0.96,
+                                        "lengthFalloffPower":0.99,
+                                        "clumpMax":0.487,
+                                        "clumpMin":0.417,
+                                        "branchFactor":3.25,
+                                        "dropAmount":0.03,
+                                        "growAmount":0.261,
+                                        "sweepAmount":0.046,
+                                        "maxRadius":0.229,
+                                        "climbRate":0.754,
+                                        "trunkKink":0.424,
+                                        "treeSteps":2,
+                                        "taperRate":0.941,
+                                        "radiusFalloffRate":0.68,
+                                        "twistRate":5.28,
+                                        "trunkLength":0.95,
+                                        "twigMaterial":"BranchType4"
+                                     }
+
+                                         tree = new Tree(treeParams);
+
+                                             treeGeometry = proctreeToBufferGeometry(tree.verts, tree.faces, tree.UV, tree.normals);
+				                             twigGeometry = proctreeToBufferGeometry(tree.vertsTwig, tree.facesTwig, tree.uvsTwig, tree.normalsTwig);
+                                                 treeGeometry.applyMatrix( new THREE.Matrix4().makeScale( 100, 100, 100 ) );
+				                                 twigGeometry.applyMatrix( new THREE.Matrix4().makeScale( 100, 100, 100 ) );
+
+                                                     //Tree Attributes
+				                                     trunkMesh = new THREE.Mesh(treeGeometry,  new THREE.MeshPhongMaterial( {
+					                                     color: 0x000000,
+					                                     emissive: 0x4A4A4A,
+                                                         ambient: 0x1F1F1F,
+                                                         shading: THREE.SmoothShading,
+                                                         fog: false,
+                                                         blending: THREE.AdditiveBlending,
+                                                         alphaTest: 0.9,
+                                                         shininess: 100,
+                                                         size: 200,
+                                                         operation: THREE.MultiplyOperation,
+                                                         datatype: THREE.FloatType,
+                                                         wrappingmode: THREE.ClampToEdgeWrapping
+                                                      }));
+
+
+                                                    leavesTexture = THREE.ImageUtils.loadTexture( "../images/code2.png" ); //Custom PNG Loaded For "Leaf" Appearance
+
+
+				                                      //Leaves Attributes
+				                                      leavesMesh = new THREE.Mesh(twigGeometry,  new THREE.MeshBasicMaterial( {
+					                                      side: THREE.DoubleSide,
+                                                          alphaTest: 0.95,
+                                                          color: 0x4A4A4A,
+                                                          emissive: 0xBBBBBB,
+                                                          shininess: 200,
+                                                          map: (leavesTexture),
+                                                          blending: THREE.AdditiveBlending,
+                                                          transparent: false,
+                                                          size: 20,
+                                                          fog: false,
+                                                          shading: THREE.SmoothShading,
+                                                          datatype: THREE.FloatType,
+                                                          wrappingmode: THREE.ClampToEdgeWrapping,
+                                                          opacity: 1,
+                                                          mappingmode: THREE.UVMapping,
+                                                          operation: THREE.MultiplyOperation
+				                                       }));
+
+                //Uses Vertex And Fragment OpenGL Scripts Written Above To Prepare "leaf"/Particle System Creation
+				var uniforms = { texture:  { type: "t", value: petalTexture } };
+				var vertexShader = document.getElementById( 'vertexShaderDepth' ).textContent;
+				var fragmentShader = document.getElementById( 'fragmentShaderDepth' ).textContent;
+
+                    leavesMesh.customDepthMaterial = new THREE.ShaderMaterial( { uniforms: uniforms, vertexShader: vertexShader, fragmentShader: fragmentShader } );
+                    leavesMesh.visible = true;
+
+                        tree1 = new THREE.Object3D();
+				        tree1.position.z = 0;
+				        tree1.position.x = 0;
+				        tree1.position.y = 0;
+
+                            scene.add(tree1); //Adds Tree To Scene
+
+				        tree1.add(trunkMesh);//Adds Tree Attributes To Tree
+				        tree1.add(leavesMesh);//Adds Leaves Attributes To Leaves
+
+				            trunkMesh.castShadow = true; //Tree Casts Shadow. Turn Off For Increase In Scene Performance
+				            trunkMesh.receiveShadow = true; //Tree Recieves Shadows. Turn Off For Increase In Scene Performance
+                            leavesMesh.castShadow = true; //Leaves Casts Shadow. Turn Off For Increase In Scene Performance
+				            leavesMesh.receiveShadow = false; //Leaves Recieve Shadows. Currently Disabled. Improves Performace And Doesn't Seem Necessary
+
+						        points = THREE.GeometryUtils.randomPointsInBufferGeometry(twigGeometry, LEAVES);
+
+			                } //END FUNCTION FOR PROC. TREE AND LEAVES!
+
+
+
+
+			                //Function Which Initilizes Scene
+			                function init() {
+			                        if( Detector.webgl ){
+				                        renderer = new THREE.WebGLRenderer({
+					                        devicePixelRatio: 1,        // TODO:FIND OUT WHAT THIS ATTRIBUTE CAN FULLY DO.
+					                        antialias: true,            // When True, Smooths Edges And Light Interaction. Disable to Increase Scene Performance
+					                        preserveDrawingBuffer: true	// Allows User To Take Screenshots. Screenshot Button Is "P" Key.
+				                        });
+				                        renderer.setClearColor( 0xFFFFFF );
+			                     }else{
+				                        renderer = new THREE.CanvasRenderer();
+			                            }
+
+			                                renderer.shadowMapEnabled = true; //Enables Shadows InScene. Disable For Improvement In Scene Performance
+                                            renderer.shadowMapType = THREE.PCFShadowMap;
+			                                renderer.setSize( window.innerWidth, window.innerHeight );
+			                                document.body.appendChild( renderer.domElement );
+
+
+
+
+    //FOR DEBUGGING SCENES DURING DEV. SHOWS REALTIME FPS OF SCENE. REMOVE GOING LIVE
+    stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    document.body.appendChild( stats.domElement );
+
+
+
+
+				                //Extends ThreeJS Canvas Editing. Currently Used To Create An Overlay Over ThreeJS Scene With Custom PNG For Easy Way Of Adding Vignette To Scene.
+				                CRAYON.extends( 'SceneNode', CRAYON.ShaderNode, {
+
+					            init: function() {
+                                    CRAYON.ShaderNode.call( this );
+
+						            // Renders Scene To Render Target
+						            camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 1, 500000 );
+                                    camera.position.set(-2700,300,-300);
+            						camera.target = new THREE.Vector3().set(0,0,0);
+
+						                scene = new THREE.Scene();
+					                    //scene.fog = new THREE.Fog( 0x000000, 2000 ); //ADD FOG TO SCENE. CURRENTLY DISABLED.
+
+
+						                 //Orbit Camera Controls
+			                             cameraControls = new THREE.OrbitAndPanControls(camera, renderer.domElement);
+			                             cameraControls.target.set(1000,300,-800);
+			                             cameraControls.autoRotate = true; //Orbit Camera Auto Rotate. Currently Enabled.
+						                 cameraControls.autoRotateSpeed = 0.25; //Auto Rotate Speed
+                                         cameraControls.minDistance = 3000; //Min Distance Orbit Camera Can Zoom To
+                                         cameraControls.maxDistance = 3900; //Max Distance Orbit Camera Can Zoom Out To
+                                         cameraControls.center = new THREE.Vector3(0,0,0);
+                                         cameraControls.userZoom = true; //Allows User To Zoom
+                                         cameraControls.userZoomSpeed = 0.5; //Zoom Speed Config
+                                         cameraControls.userRotate = true;
+                                         cameraControls.userRotateSpeed = 0.5;
+                                         cameraControls.userPan = true;
+                                         cameraControls.userPanSpeed = 1.0;
+
+
+			    // "f" Key Will Set The Screen To Full Size Automatically. Via THREEx Plugin
+			    if( THREEx.FullScreen.available() ){
+				    THREEx.FullScreen.bindKey();}
+
+
+
+
+
+                 //ADD LIGHTS TO SCENE
+                 //
+                 //Directional Light
+				 function directionalLight(x, y, z, color) {
+				     var light = new THREE.DirectionalLight(color);
+				     light.position.set(0,0,0).normalize();
+				     light.position.multiplyScalar( 6 );
+				         return light;
+				 }
+				 //SpotLight
+				 light = new THREE.SpotLight( 0x909090, 0, 2000, Math.PI / 2, 2 );
+				 light.position.set( -2000, -2000, 1000 );
+                 light.castShadow = true; //SpotLight Casts Shadow.
+				 light.shadowBias = 0.00025;//Shadow Intensity
+                 light.shadowDarkness = 0.45;//Shadow Darkness
+				 scene.add(light); //Adds SpotLight To Scene
+				 //Ambient Light
+				 scene.add(new THREE.AmbientLight(0xBBBBBB, 0.09));
+
+
+                 //SKYBOX
+		         var imagePrefix = "../images/skybox/";
+	             var directions  = ["posx", "negx", "posy", "negy", "posz", "negz"];
+	             var imageSuffix = ".png";
+	             var skyGeometry = new THREE.CubeGeometry( 8500,8500,8500 );
+	             var materialArray = [];
+				 	for (var i = 0; i < 6; i++)
+		                 materialArray.push( new THREE.MeshBasicMaterial({
+			                 map: THREE.ImageUtils.loadTexture( imagePrefix + directions[i] + imageSuffix ),
+			                 side: THREE.BackSide
+	        	         }));
+				 var skyMaterial = new THREE.MeshFaceMaterial( materialArray );
+	             var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
+				 scene.add( skyBox ); //Adds SkyBox To Scene
+
+				  //PARAMETRIC GROUND PLANE
+				  groundTexture = THREE.ImageUtils.loadTexture( "../images/groundplane.png" ); //Adds Custom texture To Ground Plane
+				  var material = new THREE.MeshLambertMaterial( {
+				      map: (groundTexture),
+				      shininess: 100,
+				      emissive: 0x4A4A4A});
+				  var geometry = new THREE.ParametricGeometry(hill, 10, 10);
+                      ground = new THREE.Mesh( geometry, material );
+					  	scene.add( ground ); //Add Ground Plane To Scene
+						    ground.receiveShadow = true; //Ground Recieves Shadows
+
+
+				//LEAVES
+				petalTexture = THREE.ImageUtils.loadTexture( "../images/code2.png" );//Custom Texture To "Petals"
+
+						addTree();
+
+						var cols = [];
+
+						'797980,7A1E48,990100,111625,571B3C' // Leaves Colors
+						.split(',').forEach(function(col) {
+							cols.push( parseInt(col, 16) );
+						} );
+
+						var face = 20;
+						var color = new THREE.Color();
+						leaves = geometry = new THREE.ParticleGeometry( LEAVES, 30 );//Size Of Leaves
+
+						rx = [], ry = [], rz = [], dx = [], dy = [], dz = [], fallings = [],
+						offset = new THREE.Vector3(-10,20,10),
+						rotation = new THREE.Vector3(10,10,10);
+
+						var point;
+
+						for (i=0;i<LEAVES;i++) {
+
+							point = points[i];
+
+							if (i < 100) {
+								// distribute them around a disk
+								var r = Math.random() * Math.random() * 1500;
+								var t = Math.random() * Math.PI / 2000;
+								point.x = Math.cos(t) * r / 10;
+								point.z = Math.cos(t) * r * 1000;
+								point.y = checkFloor(point.x / 4, point.z * 4);
+								fallings [ i ] = ON_TREE;
+							}
+
+							geometry.setSprite( 'offsets', i, point.x, point.y, point.z );
+							geometry.setSprite( 'rotations', i, Math.random() * 3, Math.random() * 3, Math.random() * 3);
+
+							rx.push(Math.random() - 0.5 / 2)
+							ry.push(Math.random() - 0.5 / 4)
+							rz.push(Math.random() - 0.5 / 2)
+							dx.push(Math.random() - 0.5 / 3)
+							dy.push(Math.random())
+							dz.push(Math.random() - 0.5 / 4)
+
+							color.set( cols[ Math.random() * cols.length | 0 ] );
+
+							geometry.setSprite( 'colors', i, color.r, color.g, color.b);
+
+						}
+
+						var petalOptions = {
+
+							uniforms: {
+								time: { type: "f", value: 1.0 },
+								depth: { type: "f", value: -1.0 },
+								texture: { type: 't', value: petalTexture}
+							},
+							attributes: {
+								offset: { type: 'v3', value: null },
+								rotation: { type: 'v3', value: null },
+							},
+							vertexShader: document.getElementById( 'vertexShader' ).textContent,
+							fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+							side: THREE.DoubleSide,
+							size: 40,
+							transparent: false
+
+						}
+
+						material = new THREE.RawShaderMaterial( petalOptions );
+
+						depthOptions = {
+							uniforms: THREE.UniformsUtils.clone( petalOptions.uniforms ),
+							attributes: {
+								offset: { type: 'v3', value: 2.0 },
+								rotation: { type: 'v3', value: 1.0 },
+							},
+							vertexShader: document.getElementById( 'vertexShader' ).textContent,
+							fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+							side: THREE.DoubleSide,
+							size: 200,
+				            transparent: false
+
+						}
+
+						depthMaterial = new THREE.RawShaderMaterial( depthOptions );
+						depthMaterial.uniforms.depth.value = 5;
+
+						petals = new THREE.Mesh( geometry, material );
+						petals.castShadow = true;
+						petals.receiveShadow = false;
+						petals.customDepthMaterial = depthMaterial;
+
+						scene.add( petals );
+
+					},
+
+					render: function() {
+
+						now = Date.now();
+
+						var t = now * 0.000001;
+						var r = 250;
+
+						var PIseconds = Date.now() * Math.PI;
+
+			            cameraControls.update();
+			            camera.position.copy( camera.position );
+
+
+						if ( camera.position.y < 0 ) camera.position.y = 0;
+
+                            camera.position.copy( camera.position );
+
+                        if ( camera.position.y >= 3000 ) camera.position.y = 3000;
+
+
+
+
+				        camera.lookAt(cameraControls.target);
+
+
+
+						if (tree1) {
+
+							tree1.rotation.y = Math.sin(now * 0.00015) * 0.4,
+							tree1.rotation.x = Math.sin(now * 0.000419) * 0.08,
+							tree1.rotation.z = Math.sin(now * 0.00045) * 0.05
+						}
+
+                        ground.rotation.y = step += 0.000095;
+
+
+
+
+                        // Render Scene
+			            renderer.shadowMapEnabled = true;
+			            renderer.shadowMapType = THREE.PCFSoftShadowMap;
+						renderer.clear();
+						renderer.render( scene, camera, this.renderTarget );
+					}
+
+				} );
+
+
+				//
+
+				sceneNode = new CRAYON.SceneNode();
+				sceneDepthNode = new CRAYON.SceneDepthNode( sceneNode );
+				screenNode = new CRAYON.RenderToScreenNode( renderer );
+
+				executorNode = new CRAYON.ExecutorNode( renderer );
+
+				screenNode = new CRAYON.RenderToScreenNode( renderer );
+				edgeNode = new CRAYON.EdgeFilterNode( renderer );
+				multiplyNode = new CRAYON.MultiplyNode( renderer );
+
+				executorNode = new CRAYON.ExecutorNode( renderer );
+
+				blurNode = new CRAYON.BlurNode( renderer, 1.5, 0.5 ); // 1 repeat, 1 downsize
+				blurNode2 = new CRAYON.BlurNode( renderer, 8, 13 );
+				var vignette = THREE.ImageUtils.loadTexture( "../images/overlay.png" );
+				multiplyNode.material.uniforms.texture3.value = vignette;
+
+
+
+
+
+				/**/
+				sceneNode.connect(blurNode);
+				blurNode.connect(blurNode2);
+
+				blurNode.connect(multiplyNode, 'texture1');
+				blurNode2.connect(multiplyNode, 'texture2');
+
+				multiplyNode.connect(screenNode);
+				screenNode.connect(executorNode, 'texture');
+
+
+			}
+
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				now = Date.now()
+				delta = (now - last) / 1000;
+				last = now;
+				time = now * 0.0000025
+				sins[0] = Math.sin(time * 1 + 0.05)
+				sins[1] = Math.sin(time * 2 + 0.1)
+				sins[2] = Math.sin(time * 3 + 0.3)
+				sins[3] = Math.sin(time * 4 + 0.6)
+				sins[4] = Math.sin(time * 5 + 1.2)
+
+
+				windForce.set( Math.cos( now / -5000 ) * 0.5, Math.cos( now * 60000 ) * 2.5, Math.cos( now / -70000 ) * 0.5 - 3.5);
+
+				for (i=0;i<LEAVES;i++) {
+
+					leaves.getFaceRotation(i * 2, rotation);
+					leaves.getSpriteOffset(i, offset);
+				    leavesMesh.rotation.y += 0.01;
+
+					sin = sins[i % 5] + sins[(i+3) % 5] * 0.5 + sins[(i+5) % 5] * 0.025;
+
+					switch (fallings[i]) {
+
+						case ON_TREE:
+							rotation.x = rx[i] + sin * 2.002;
+							rotation.y = ry[i] + sin / 2.0008;
+							rotation.z = rz[i] + sin / 30.00004;
+
+							offset.copy( points[i] );
+							trunkMesh.localToWorld( offset );
+                            leavesMesh.lookAt( camera.position );
+
+							break;
+						case ON_AIR:
+							dx[i] += windForce.x * delta * 2.025;
+							dy[i] += windForce.y * delta * 0.099;
+							dy[i] -= 0.025 * delta * Math.random();
+							dz[i] += windForce.z * delta * 0.5;
+
+							offset.x += dx[i] * delta * 30;
+							offset.y += dy[i] * delta * 80;
+							offset.z += dz[i] * delta * 15;
+
+							rotation.x += rx[i] * delta * 2.5;
+							rotation.y += ry[i] * delta * 1.25;
+							rotation.z += rz[i] * delta * 4;
+
+							if (offset.y - 5 <= checkFloor(offset.x, offset.z)) {
+								// could repawn here if needed
+								fallings[i] = ON_TREE;
+							}
+
+							break;
+					}
+
+					leaves.setSprite( 'rotations', i, rotation.x, rotation.y, rotation.z );
+					leaves.setSprite( 'offsets', i, offset.x, offset.y, offset.z );
+
+
+				}
+
+				leaves.attributes.rotation.needsUpdate = true;
+				leaves.attributes.offset.needsUpdate = true;
+
+				multiplyNode.material.uniforms.time.value = delta;
+
+				executorNode.renderAll();
+
+
+				stats.update();
+				update.camera();
+				cameraControls.update();
+			    camera.lookAt(cameraControls.target);
+			    camera.position.copy( camera.position );
+
+
+
+			}
+				 requestAnimationFrame( animate );
+
+
+		</script>
+
+<!--Preloader Custom JS-->
+<script src="../js/Preloader.js"></script>
+
+
+<!--REMOVE BEFORE GOING LIVE-->
+        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':62182/autorefresh.js"></' + 'script>')</script>
+	</body>
+</html>
