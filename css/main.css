@@ -269,10 +269,8 @@ canvas {
 }
 
 /* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
+MEDIA QUERIES
+========================================================================== */
 
 @media only screen and (min-width: 35em) {
     /* Style adjustments for viewports that meet the condition */
@@ -283,6 +281,401 @@ canvas {
        (-webkit-min-device-pixel-ratio: 1.25),
        (min-resolution: 120dpi) {
     /* Style adjustments for high resolution devices */
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status480.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (min-width : 321px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status321.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status320.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status768.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status1024.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status1024.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status1224.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* Large screens ----------- */
+@media only screen
+and (min-width : 1824px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status1824.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* iPhone 5 (portrait & landscape)----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status568.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* iPhone 5 (landscape)----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : landscape) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status568.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
+}
+
+/* iPhone 5 (portrait)----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : portrait) {
+/**
+*** PRELOADER STYLES***/
+#preloader {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    z-index: 999;
+    width:100%;
+    min-height: 100%;
+}
+#status {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-image: url('../images/status568.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0px;
+    background-size: cover;
+}
+/**
+*** END PRELOADER STYLES***/
+
 }
 
 /* ==========================================================================
